@@ -63,7 +63,7 @@ def download_video(url, preferred_quality=None, output_path='downloads'):
 
             print(f"\nTítulo do Vídeo: {info.get('title', 'Unknown')}")
             duration = int(info.get('duration', 0))
-            print(f"Duration: {duration // 60}:{duration %60:02d}")
+            print(f"Duração: {duration // 60}:{duration %60:02d}")
 
             formats = info.get('formats', [])
             quality_set = set()
@@ -93,7 +93,12 @@ def download_video(url, preferred_quality=None, output_path='downloads'):
 
             height = int(preferred_quality.replace('p', ''))
             ydl_opts['format'] = best_format(formats, height, ffmpeg_available)
+
+            print(f"\n Download do vídeo em: {preferred_quality}...")
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([url])
             print("\nO Vídeo foi baixado com sucesso")
+
     except Exception as error:
         print(f"\nOcorreu um erro: {str(error)}")
         print("\nDicas para solução de problemas:")
@@ -102,3 +107,9 @@ def download_video(url, preferred_quality=None, output_path='downloads'):
         print("3. Tente atualizar o yt-dlp: `pip install --upgrade yt-dlp`")
         print("4. Certifique-se de que o vídeo não seja privado ou tenha restrição de idade")
         print("5. Se quiser acesso a todas as opções de qualidade, execute `choco install FFmpeg`")
+
+if __name__ == "__main__":
+    video_url = input("Link do Vídeo no YouTube: ")
+    preferred_quality = input("Digite a qualidade desejada (ex.: 720p) ou pressione Enter para ver as opções disponíveis: ").strip()
+    
+    download_video(video_url, preferred_quality)
