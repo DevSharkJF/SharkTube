@@ -17,7 +17,7 @@ def format_size(bytes):
             return f"{bytes:.2f} {unit}"
 
 def progress(down):
-    if down['status'] == 'BAIXANDO':
+    if down['status'] == 'downloading':
         downloaded = down.get('download_bytes', 0)
         total = down.get('total_bytes', 0) or down.get('total_bytes_estimate', 0)
 
@@ -56,14 +56,15 @@ def download_video(url, preferred_quality=None, output_path='downloads'):
             'verbose': False
         }
 
-        print("Buscando informações do vídeo")
+        print("\n🔎 Buscando informações do vídeo...\n")
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
 
-            print(f"\nTítulo do Vídeo: {info.get('title', 'Unknown')}")
+            print("\n---------------- INFORMAÇÕES DO OBTIDAS ----------------")
+            print(f"📽️  Título do Vídeo: {info.get('title', 'Unknown')}")
             duration = int(info.get('duration', 0))
-            print(f"Duração: {duration // 60}:{duration %60:02d}")
+            print(f"🕐 Duração: {duration // 60}:{duration %60:02d}")
 
             formats = info.get('formats', [])
             quality_set = set()
@@ -75,29 +76,29 @@ def download_video(url, preferred_quality=None, output_path='downloads'):
 
             quality_list = sorted(quality_set, key=lambda x: int(x.replace('p', '')))
 
-            print("\n Qualidades Disponíveis:")
+            print("\n ---------------- SELECIONE A QUALIDADE DO VÍDEO ----------------")
+            print("✔️  Qualidades Disponíveis:")
             for i, quality in enumerate(quality_list, 1):
                 print(f"{i}. {quality}")
 
             if not preferred_quality or preferred_quality not in quality_set:
-                print("\n Selecione uma das qualidades disponíveis nas opções:")
                 while True:
                     try:
-                        choice = int(input("Digite o número da sua escolha: "))
+                        choice = int(input("➡️  Informe o número correspondente a qualidade: "))
                         if 1 <= choice <= len(quality_list):
                             preferred_quality = quality_list[choice-1]
                             break
-                        else: print("Escolha Inválida. Tente Novamente")
+                        else: print("❌ ESCOLHA INVÁLIDA! TENTE NOVAMENTE!")
                     except ValueError:
-                        print("Selecione um número válido")
+                        print("🔁 SELECIONE UM NÚMERO VÁLIDO")
 
             height = int(preferred_quality.replace('p', ''))
             ydl_opts['format'] = best_format(formats, height, ffmpeg_available)
 
-            print(f"\n Download do vídeo em: {preferred_quality}...")
+            print(f"\n⏳ Download do vídeo em: {preferred_quality}...\n")
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([url])
-            print("\nO Vídeo foi baixado com sucesso")
+            print("\n✅ VÍDEO BAIXADO COM SUCESSO!\n")
 
     except Exception as error:
         print(f"\nOcorreu um erro: {str(error)}")
@@ -109,7 +110,6 @@ def download_video(url, preferred_quality=None, output_path='downloads'):
         print("5. Se quiser acesso a todas as opções de qualidade, execute `choco install FFmpeg`")
 
 if __name__ == "__main__":
-    video_url = input("Link do Vídeo no YouTube: ")
-    preferred_quality = input("Digite a qualidade desejada (ex.: 720p) ou pressione Enter para ver as opções disponíveis: ").strip()
-    
+    video_url = input("\n🔗 Link do Vídeo no YouTube: ")
+    preferred_quality = input("Digite a qualidade desejada (ex.: 720p) ou pressione ENTER para ver as opções disponíveis: ").strip()
     download_video(video_url, preferred_quality)
