@@ -19,3 +19,9 @@ Pelo terminal:
 Verifique a versão do ffmpeg com:
 
     ffmpeg -version
+
+# Print do Terminal
+
+<div align="center">
+    <img width="511" height="468" alt="Image" src="https://github.com/user-attachments/assets/2e283a6c-dcca-4ede-8dad-dc0dc2927d19" />
+</div>
