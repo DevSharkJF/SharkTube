@@ -140,17 +140,32 @@ def download_audio(url, preferred_format='mp3', output_path='downloads/audio'):
     except Exception as error:
         print(f"\nOcorreu um erro no download de áudio: {error}")
 
-if __name__ == "__main__":
-    os.system('cls')
-    print("Deseja baixar vídeo ou áudio?")
-    print("1. Vídeo")
-    print("2. Áudio")
-    resposta = input("Sua Opção: ")
+def terminal_menu():
+    while True:
+        os.system('cls')
+        print("========================================")
+        print("      🦈 SharkTube - Downloader📹       ")
+        print("========================================")
+        print(" 1) Baixar Vídeo")
+        print(" 2) Baixar Áudio")
+        print(" 0) Sair")
+        print("----------------------------------------")
+        choice = input("Escolha uma opção: ").strip()
+        if choice in ('0', '1', '2'):
+            return choice
+        print("\nOpção inválida. Pressione ENTER para tentar novamente...")
+        input()
 
-    if resposta == "1":
-        video_url = input("\n🔗 Link do Vídeo no YouTube: ")
+if __name__ == "__main__":
+    choice = terminal_menu()
+    if choice == '0':
+        print("Saindo...")
+        sys.exit(0)
+    elif choice == '1':
+        video_url = input("\n🔗 Link do Vídeo no YouTube: ").strip()
         preferred_quality = input("Digite a qualidade desejada (ex.: 1080p) ou pressione ENTER para ver as opções disponíveis: ").strip()
+        os.system('cls')
         download_video(video_url, preferred_quality)
-    if resposta == "2":
-        video_url = input("\n🔗 Link do Vídeo no YouTube: ")
-        (download_audio(video_url))
+    elif choice == '2':
+        video_url = input("\n🔗 Link do Vídeo no YouTube: ").strip()
+        download_audio(video_url)
