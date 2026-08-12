@@ -39,7 +39,7 @@ def best_format(formats, target_height, ffmpeg_available):
     else:
         return f'best[height<={target_height}][ext=mp4]/best[ext=mp4]/best'
 
-def download_video(url, preferred_quality=None, output_path='downloads'):
+def download_video(url, preferred_quality=None, output_path='downloads/video'):
     try:
         ffmpeg_available = check_ffmpeg()
         if not ffmpeg_available:
@@ -110,7 +110,34 @@ def download_video(url, preferred_quality=None, output_path='downloads'):
         print("5. Se quiser acesso a todas as opções de qualidade, execute `choco install FFmpeg`")
         print("------------------------------------------------------------------------------------")
 
+def download_audio(url, preferred_format='mp4', output_path='downloads/audio'):
+    try:
+        ffmpeg_available = check_ffmpeg()
+        if not ffmpeg_available:
+            print("\nAviso: o FFmpeg não está instalado. Será baixado o áudio no formato original disponível, sem conversão.")
+        if not os.path.exists(output_path):
+            os.makedirs(output_path)
+        ydl_opts = {
+            'progress': [progress],
+            'format': 'bestaudio/best',
+            'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
+            'verbose': False
+        }
+        if ffmpeg_available:
+            ydl_opts['postprocessors'] = [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': preferred_format,
+                'preferredquality': '192'
+            }]
+        print(f"\n⏳ Iniciando download do áudio ({preferred_format})...\n")
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+        print("\n✅ ÁUDIO BAIXADO COM SUCESSO!\n")
+    except Exception as error:
+        print(f"\nOcorreu um erro no download de áudio: {error}")
+
 if __name__ == "__main__":
     video_url = input("\n🔗 Link do Vídeo no YouTube: ")
-    preferred_quality = input("Digite a qualidade desejada (ex.: 1080p) ou pressione ENTER para ver as opções disponíveis: ").strip()
-    download_video(video_url, preferred_quality)
+    (download_audio(video_url))
+    # preferred_quality = input("Digite a qualidade desejada (ex.: 1080p) ou pressione ENTER para ver as opções disponíveis: ").strip()
+    # download_video(video_url, preferred_quality)
