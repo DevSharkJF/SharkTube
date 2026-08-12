@@ -61,6 +61,7 @@ def download_video(url, preferred_quality=None, output_path='downloads/video'):
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
 
+            os.system('cls')
             print("\n---------------- INFORMAÇÕES DO OBTIDAS ----------------")
             print(f"📽️  Título do Vídeo: {info.get('title', 'Unknown')}")
             duration = int(info.get('duration', 0))
@@ -95,10 +96,12 @@ def download_video(url, preferred_quality=None, output_path='downloads/video'):
             height = int(preferred_quality.replace('p', ''))
             ydl_opts['format'] = best_format(formats, height, ffmpeg_available)
 
+            os.system('cls')
             print(f"\n⏳ Download do vídeo em: {preferred_quality}...\n")
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([url])
-            print("\n✅ VÍDEO BAIXADO COM SUCESSO!\n")
+            print(f"\n{info.get('title', 'Unknown')}")
+            print("✅ VÍDEO BAIXADO COM SUCESSO!\n")
 
     except Exception as error:
         print(f"\nOcorreu um erro: {str(error)}")
@@ -110,7 +113,7 @@ def download_video(url, preferred_quality=None, output_path='downloads/video'):
         print("5. Se quiser acesso a todas as opções de qualidade, execute `choco install FFmpeg`")
         print("------------------------------------------------------------------------------------")
 
-def download_audio(url, preferred_format='mp4', output_path='downloads/audio'):
+def download_audio(url, preferred_format='mp3', output_path='downloads/audio'):
     try:
         ffmpeg_available = check_ffmpeg()
         if not ffmpeg_available:
@@ -129,6 +132,7 @@ def download_audio(url, preferred_format='mp4', output_path='downloads/audio'):
                 'preferredcodec': preferred_format,
                 'preferredquality': '192'
             }]
+        os.system('cls')
         print(f"\n⏳ Iniciando download do áudio ({preferred_format})...\n")
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
@@ -137,7 +141,16 @@ def download_audio(url, preferred_format='mp4', output_path='downloads/audio'):
         print(f"\nOcorreu um erro no download de áudio: {error}")
 
 if __name__ == "__main__":
-    video_url = input("\n🔗 Link do Vídeo no YouTube: ")
-    (download_audio(video_url))
-    # preferred_quality = input("Digite a qualidade desejada (ex.: 1080p) ou pressione ENTER para ver as opções disponíveis: ").strip()
-    # download_video(video_url, preferred_quality)
+    os.system('cls')
+    print("Deseja baixar vídeo ou áudio?")
+    print("1. Vídeo")
+    print("2. Áudio")
+    resposta = input("Sua Opção: ")
+
+    if resposta == "1":
+        video_url = input("\n🔗 Link do Vídeo no YouTube: ")
+        preferred_quality = input("Digite a qualidade desejada (ex.: 1080p) ou pressione ENTER para ver as opções disponíveis: ").strip()
+        download_video(video_url, preferred_quality)
+    if resposta == "2":
+        video_url = input("\n🔗 Link do Vídeo no YouTube: ")
+        (download_audio(video_url))
