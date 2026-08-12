@@ -90,7 +90,7 @@ def download_video(url, preferred_quality=None, output_path='downloads'):
                             break
                         else: print("❌ ESCOLHA INVÁLIDA! TENTE NOVAMENTE!")
                     except ValueError:
-                        print("🔁 SELECIONE UM NÚMERO VÁLIDO")
+                        print("🔁 SELECIONE UM NÚMERO VÁLIDO!")
 
             height = int(preferred_quality.replace('p', ''))
             ydl_opts['format'] = best_format(formats, height, ffmpeg_available)
@@ -102,14 +102,15 @@ def download_video(url, preferred_quality=None, output_path='downloads'):
 
     except Exception as error:
         print(f"\nOcorreu um erro: {str(error)}")
-        print("\nDicas para solução de problemas:")
+        print("Dicas para solução de problemas:")
         print("1. Verifique sua conexão com a internet")
         print("2. Verifique se a URL do vídeo está correta e acessível")
         print("3. Tente atualizar o yt-dlp: `pip install --upgrade yt-dlp`")
         print("4. Certifique-se de que o vídeo não seja privado ou tenha restrição de idade")
         print("5. Se quiser acesso a todas as opções de qualidade, execute `choco install FFmpeg`")
+        print("------------------------------------------------------------------------------------")
 
 if __name__ == "__main__":
     video_url = input("\n🔗 Link do Vídeo no YouTube: ")
-    preferred_quality = input("Digite a qualidade desejada (ex.: 720p) ou pressione ENTER para ver as opções disponíveis: ").strip()
+    preferred_quality = input("Digite a qualidade desejada (ex.: 1080p) ou pressione ENTER para ver as opções disponíveis: ").strip()
     download_video(video_url, preferred_quality)
