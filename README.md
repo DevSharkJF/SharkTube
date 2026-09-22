@@ -21,16 +21,17 @@ Verifique a versão do ffmpeg com:
     ffmpeg -version
 
 # Erros
-Caso ocorra algum erro na hora de executar o código, tente sempre verificar os seguintes tópicos:
-* Verificar conexão com a internet
-* Verificar URL (Acessível e Correto)
-* Verifique se o yt-dlp está atualizado. Atualize com: `pip install --upgrade yt-dlp`
-* Verifique se o vídeo não está privado ou com restrição de idade
+Caso ocorra algum erro durante a execução do código, verifique os seguintes pontos:
+
+* **Conexão com a internet:** certifique-se de que sua conexão está estável.
+* **URL:** verifique se a URL informada está correta e acessível.
+* **Yt-dlp:** certifique-se de que o yt-dlp está atualizado. Para atualizar, execute: ``pip install --upgrade yt-dlp``
+* **Restrições do vídeo:** verifique se o vídeo não é privado, possui restrição de idade ou alguma outra limitação de acesso.
 
 # Observações
-Caso cole link de qualquer vídeo, que esteja em playlist, toda os vídeos contidos nessa playlist, serão baixados, o que pode ocasionar em um longo tempo de download.
+Ao fornecer o link de um vídeo que pertence a uma playlist, todos os vídeos dessa playlist poderão ser baixados. Isso pode resultar em um número elevado de downloads e, consequentemente, aumentar consideravelmente o tempo necessário para concluir a operação.
 
-Não é recomendado fazer um grande número de downloads, pois o you tube pode acabar requisitando login para que o vídeo consiga ser baixado.
+Evite realizar um grande número de downloads em sequência. O YouTube pode identificar um volume elevado de requisições e solicitar autenticação (login) para permitir o download dos vídeos.
 
 # Print do Terminal
 <div align="center">
